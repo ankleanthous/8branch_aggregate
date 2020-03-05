@@ -10,9 +10,11 @@ lebedev quadrature points from: https://bitbucket.org/CasperBeentjes/quadratures
 
 Simulations run using bempp version 3.3.2 (https://bempp.com/)
 
-For details regarding the method and preconditioning used see
+**For details regarding the PMCHWT formulation and preconditioning used see:**
 
 Kleanthous, Antigoni, et al. "Calderón preconditioning of PMCHWT boundary integral equations for scattering by multiple absorbing dielectric particles." *Journal of Quantitative Spectroscopy and Radiative Transfer* 224 (2019): 383-395.
+
+Escapil-Inchauspé, Paul, and Carlos Jerez-Hanckes. "Fast calderón preconditioning for the electric field integral equation." *IEEE Transactions on Antennas and Propagation 67.4* (2019): 2555-2564.
 
 Kleanthous, Antigoni, et al. "Accelerated Calderón preconditioning for Maxwell problems." *In Preparation*
 
