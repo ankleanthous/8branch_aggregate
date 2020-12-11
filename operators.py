@@ -54,10 +54,6 @@ def PMCHWT_operator(grids, k_ext, k_int, mu_ext, mu_int, parameters = None):
     exterior_operators = []
     identity_operators = []
     
-    #from bempp.core.common.global_parameters import global_parameters
-    #if parameters == None:
-    #    parameters_nu = global_parameters()
-    
     for i in range(number_of_scatterers):
         Ai = bempp.api.BlockedOperator(2,2)
         Ae = bempp.api.BlockedOperator(2,2)
@@ -132,7 +128,7 @@ def PMCHWT_operator(grids, k_ext, k_int, mu_ext, mu_int, parameters = None):
             
     return [result, filter_operators]
 
-def PMCHWT_preconditioner(grids, k_ext, k_int, mu_ext, mu_int, parameters = None):
+def PMCHWT_preconditioner(grids, k_ext, k_int, mu_ext, mu_int, parameters = None, full = False, electric_only = False):
     number_of_scatterers = len(grids)
     result = bempp.api.BlockedOperator(2*number_of_scatterers, 2*number_of_scatterers)
 
@@ -173,12 +169,20 @@ def PMCHWT_preconditioner(grids, k_ext, k_int, mu_ext, mu_int, parameters = None
 
         Ae_pre = rescale(Ae_pre, k_ext, mu_ext)
 
-        element = Ai_pre#+Ae_pre
+        
+        if full == True:
+            element = Ai_pre + Ae_pre
+        else:
+            element = Ai_pre
 
-        result[2 * i, 2 * i] = element[0, 0]
-        result[2 * i, 2 * i + 1] = element[0, 1]
-        result[2 * i + 1, 2 * i] = element[1, 0]
-        result[2 * i + 1, 2 * i + 1] = element[1, 1] 
+        if electric_only == True:
+            result[2*i, 2*i+1] = element[0,1]
+            result[2*i+1, 2*i] = element[1,0]
+        else:
+            result[2 * i, 2 * i] = element[0, 0]
+            result[2 * i, 2 * i + 1] = element[0, 1]
+            result[2 * i + 1, 2 * i] = element[1, 0]
+            result[2 * i + 1, 2 * i + 1] = element[1, 1] 
         
     return result
 
